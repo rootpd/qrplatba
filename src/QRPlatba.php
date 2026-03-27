@@ -721,14 +721,16 @@ class QRPlatba
      */
     public function getQRCodeInstance(int $size = 300, int $margin = 10): QrCode
     {
-        return QrCode::create((string) $this)
-            ->setSize($size - ($margin * 2))
-            ->setEncoding(new Encoding('UTF-8'))
-            ->setErrorCorrectionLevel(ErrorCorrectionLevel::Medium)
-            ->setMargin($margin)
-            ->setRoundBlockSizeMode(RoundBlockSizeMode::Enlarge)
-            ->setForegroundColor(new Color(0, 0, 0, 0))
-            ->setBackgroundColor(new Color(255, 255, 255, 0));
+        return new QrCode(
+            data: (string) $this,
+            encoding: new Encoding('UTF-8'),
+            errorCorrectionLevel: ErrorCorrectionLevel::Medium,
+            size: $size - ($margin * 2),
+            margin: $margin,
+            roundBlockSizeMode: RoundBlockSizeMode::Enlarge,
+            foregroundColor: new Color(0, 0, 0, 0),
+            backgroundColor: new Color(255, 255, 255, 0),
+        );
     }
 
     /**
@@ -799,10 +801,12 @@ class QRPlatba
     private function getLabelInstance(): ?Label
     {
         if ($this->label !== null) {
-            return Label::create($this->label)
-                ->setAlignment(LabelAlignment::Left)
-                ->setFont(new OpenSans())
-                ->setTextColor(new Color(0, 0, 0, 0));
+            return new Label(
+                text: $this->label,
+                font: new OpenSans(),
+                alignment: LabelAlignment::Left,
+                textColor: new Color(0, 0, 0, 0),
+            );
         }
 
         return null;
